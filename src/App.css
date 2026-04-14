@@ -328,7 +328,7 @@
   justify-content: space-around;
   padding: 10px 0;
   border-top: 1px solid #eee;
-  z-index: 1000;
+  z-index: 1100;
 }
 
 .nav-item {
@@ -349,6 +349,10 @@
   font-size: 1.4rem;
 }
 
+.nav-icon-mui {
+  font-size: 24px !important;
+}
+
 .footer-image-container {
   padding: 20px;
   width: 100%;
@@ -360,4 +364,117 @@
   height: auto;
   display: block;
   border-radius: 12px;
+}
+
+/* Map Page Styles */
+.map-page-container {
+  width: 100%;
+  height: calc(100vh - 10px); /* Account for bottom nav padding */
+  position: relative;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.map-header-overlay {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  z-index: 2000; /* Higher than map tiles */
+}
+
+.map-search-bar {
+  background: white;
+  border-radius: 30px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  border: 1.5px solid #eee; /* Added border for visibility */
+}
+
+.map-search-bar input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.locate-btn {
+  position: absolute;
+  bottom: 90px; /* Moved down slightly as requested */
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: white;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  z-index: 2000;
+  cursor: pointer;
+}
+
+.locate-btn:active {
+  transform: scale(0.95);
+}
+
+/* Custom Marker Styles */
+.stop-marker {
+  width: 24px;
+  height: 24px;
+  background: #d81b60; /* Pinkish color from screenshot */
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Location Marker */
+.location-marker-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.location-pulse {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: rgba(33, 150, 243, 0.3);
+  border-radius: 50%;
+  animation: pulse 2s infinite ease-out;
+}
+
+.location-center {
+  width: 14px;
+  height: 14px;
+  background: #2196f3;
+  border: 3px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+  z-index: 1;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.5); opacity: 0; }
+  50% { opacity: 0.5; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* Fix for Leaflet tiles bleeding over nav */
+.leaflet-container {
+  z-index: 1;
 }
