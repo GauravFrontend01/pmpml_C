@@ -1,0 +1,21 @@
+{
+  "name": "PMPML App",
+  "short_name": "PMPML",
+  "description": "Next-Gen PMPML Metro and Bus Tracking App",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/pmpml_logo_1776152853531.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/pmpml_logo_1776152853531.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
