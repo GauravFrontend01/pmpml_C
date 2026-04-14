@@ -426,9 +426,9 @@
 }
 
 /* Custom Marker Styles */
-.stop-marker {
-  width: 24px;
-  height: 24px;
+.stop-marker-red {
+  width: 20px;
+  height: 20px;
   background: #d81b60; /* Pinkish color from screenshot */
   color: white;
   border-radius: 50%;
@@ -436,10 +436,38 @@
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 12px;
-  border: 2px solid white;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  font-size: 11px;
+  border: 1.5px solid white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
+
+.moving-bus-marker {
+  width: 45px;
+  height: 22px;
+  background: #2e7d32; /* Green from screenshot */
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 12px;
+  border: 1.5px solid #1b5e20;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.moving-bus-marker::before, .moving-bus-marker::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 3px;
+  background: #111;
+  bottom: -3px;
+}
+
+.moving-bus-marker::before { left: 5px; }
+.moving-bus-marker::after { right: 5px; }
 
 /* Location Marker */
 .location-marker-container {

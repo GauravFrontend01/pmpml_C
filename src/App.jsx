@@ -13,6 +13,15 @@ const App = () => {
   const [activeTab, setActiveTab] = useState('Home');
   const mapRef = useRef(null);
   const leafletMap = useRef(null);
+  const [buses, setBuses] = useState([
+    { id: 1, pos: [18.5204, 73.8567], vel: [0.000015, 0.00002], num: '43' },
+    { id: 2, pos: [18.5304, 73.8667], vel: [-0.00002, 0.000015], num: '312' },
+    { id: 3, pos: [18.5104, 73.8467], vel: [0.000025, -0.00001], num: '64' },
+    { id: 4, pos: [18.5404, 73.8767], vel: [-0.000015, -0.000025], num: '102' },
+    { id: 5, pos: [18.5254, 73.8627], vel: [0.00001, -0.00001], num: '313' },
+  ]);
+  const busMarkers = useRef({});
+  const stopMarkers = useRef([]);
 
   useEffect(() => {
     if (activeTab === 'Buses' && mapRef.current && !leafletMap.current) {
@@ -22,29 +31,31 @@ const App = () => {
           leafletMap.current = L.map(mapRef.current, {
             zoomControl: false,
             attributionControl: false
-          }).setView([18.5204, 73.8567], 13); // Pune coordinates
+          }).setView([18.5204, 73.8567], 14); // Slightly zoomed in
 
           L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© CartoDB'
           }).addTo(leafletMap.current);
 
-          // Add some dummy markers for bus stops
+          // Add static bus stops with larger spread
           const stops = [
-            [18.5204, 73.8567],
-            [18.5304, 73.8667],
-            [18.5104, 73.8467],
-            [18.5404, 73.8767]
+            [18.5254, 73.8617], [18.5354, 73.8717], [18.5154, 73.8517],
+            [18.5454, 73.8817], [18.5104, 73.8367], [18.5204, 73.8467],
+            [18.5004, 73.8567], [18.5304, 73.8467], [18.5604, 73.8967],
+            [18.4904, 73.8267], [18.5804, 73.8167], [18.5104, 73.9167],
+            [18.4704, 73.8567], [18.5404, 73.7867], [18.5904, 73.8667]
           ];
 
           stops.forEach(stop => {
             const stopIcon = L.divIcon({
               className: 'custom-stop-icon',
-              html: `<div class="stop-marker">B</div>`,
-              iconSize: [24, 24],
-              iconAnchor: [12, 12]
+              html: `<div class="stop-marker-red">B</div>`,
+              iconSize: [20, 20],
+              iconAnchor: [10, 10]
             });
-            L.marker(stop, { icon: stopIcon }).addTo(leafletMap.current);
+            const marker = L.marker(stop, { icon: stopIcon }).addTo(leafletMap.current);
+            stopMarkers.current.push(marker);
           });
 
           // Add location marker
@@ -58,10 +69,40 @@ const App = () => {
         }
     }
 
+    // Bus movement animation
+    let interval;
+    if (activeTab === 'Buses' && leafletMap.current) {
+      interval = setInterval(() => {
+        setBuses(prevBuses => prevBuses.map(bus => {
+          const newLat = bus.pos[0] + bus.vel[0];
+          const newLng = bus.pos[1] + bus.vel[1];
+          
+          // Update marker position directly for performance
+          if (busMarkers.current[bus.id]) {
+            busMarkers.current[bus.id].setLatLng([newLat, newLng]);
+          } else if (leafletMap.current) {
+            const L = window.L;
+            const busIcon = L.divIcon({
+              className: 'custom-bus-icon',
+              html: `<div class="moving-bus-marker"><span>${bus.num}</span></div>`,
+              iconSize: [40, 20],
+              iconAnchor: [20, 10]
+            });
+            busMarkers.current[bus.id] = L.marker([newLat, newLng], { icon: busIcon }).addTo(leafletMap.current);
+          }
+
+          return { ...bus, pos: [newLat, newLng] };
+        }));
+      }, 100); // 10fps for smooth movement
+    }
+
     return () => {
-      if (leafletMap.current) {
+      if (interval) clearInterval(interval);
+      if (activeTab !== 'Buses' && leafletMap.current) {
         leafletMap.current.remove();
         leafletMap.current = null;
+        busMarkers.current = {};
+        stopMarkers.current = [];
       }
     };
   }, [activeTab]);
