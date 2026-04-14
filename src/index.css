@@ -33,13 +33,16 @@ body {
   width: 100%;
   max-width: 450px; /* Mobile size limit */
   background: var(--bg-secondary);
-  min-height: 100vh;
+  height: 100vh;
   position: relative;
   box-shadow: 0 0 20px rgba(0,0,0,0.05);
+  overflow: hidden;
 }
 
 .app-container {
-  padding-bottom: 80px; /* Space for bottom nav */
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 90px;
 }
 
 /* Base Utility Classes */

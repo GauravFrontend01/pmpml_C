@@ -806,7 +806,7 @@
   z-index: 4000;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .details-header-text {
@@ -846,6 +846,8 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
 }
 
 .itinerary-item {
@@ -1029,6 +1031,7 @@
   z-index: 5000;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .header-time-top {
@@ -1340,4 +1343,75 @@
   font-size: 1.35rem;
   font-weight: 800;
   cursor: pointer;
+}
+
+/* Payment Modal Styles */
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 6000;
+  backdrop-filter: blur(2px);
+}
+
+.payment-modal {
+  background: white;
+  width: 90%;
+  max-width: 380px;
+  border-radius: 28px;
+  padding: 30px 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+.modal-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 35px;
+}
+
+.payment-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  justify-items: center;
+}
+
+.payment-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.payment-option span {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.brand-icon-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  background: white;
+}
+
+.brand-icon-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }

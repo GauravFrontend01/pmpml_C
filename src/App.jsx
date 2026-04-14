@@ -28,6 +28,7 @@ const App = () => {
   const [showResults, setShowResults] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [showBooking, setShowBooking] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
   const mapRef = useRef(null);
@@ -628,7 +629,7 @@ const App = () => {
                 </div>
               </div>
 
-              <div className="booking-footer">
+              <div className="booking-footer" onClick={() => setShowPaymentModal(true)}>
                 <div className="payment-select-col">
                   <div className="pay-using-row">
                     <span>PAY USING</span>
@@ -639,9 +640,47 @@ const App = () => {
                     <span>Select</span>
                   </div>
                 </div>
-                <button className="final-pay-btn">
+                <button className="final-pay-btn" onClick={(e) => {
+                  e.stopPropagation();
+                  setShowPaymentModal(true);
+                }}>
                   Pay ₹40.0
                 </button>
+              </div>
+            </div>
+          )}
+
+          {/* Payment Mode Modal */}
+          {showPaymentModal && (
+            <div className="modal-backdrop" onClick={() => setShowPaymentModal(false)}>
+              <div className="payment-modal" onClick={(e) => e.stopPropagation()}>
+                <h2 className="modal-title">Select Payment Mode</h2>
+                <div className="payment-grid">
+                  <div className="payment-option">
+                    <div className="brand-icon-img">
+                      <img src="/paytm.png" alt="Paytm" />
+                    </div>
+                    <span>Paytm</span>
+                  </div>
+                  <div className="payment-option">
+                    <div className="brand-icon-img">
+                      <img src="/phone-pe.jpg" alt="PhonePe" />
+                    </div>
+                    <span>PhonePe</span>
+                  </div>
+                  <div className="payment-option">
+                    <div className="brand-icon-img">
+                      <img src="/google-pay.png" alt="GPay" />
+                    </div>
+                    <span>GPay</span>
+                  </div>
+                  <div className="payment-option">
+                    <div className="brand-icon-img">
+                      <img src="/amazon.webp" alt="Amazon" />
+                    </div>
+                    <span>Amazon</span>
+                  </div>
+                </div>
               </div>
             </div>
           )}
