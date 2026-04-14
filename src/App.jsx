@@ -15,11 +15,19 @@ import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import RoomIcon from '@mui/icons-material/Room';
+import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import PaymentIcon from '@mui/icons-material/Payment';
 
 const App = () => {
   const [activeTab, setActiveTab] = useState('Home');
   const [showSearch, setShowSearch] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
+  const [showBooking, setShowBooking] = useState(false);
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
   const mapRef = useRef(null);
@@ -343,12 +351,12 @@ const App = () => {
 
               <div className="results-list">
                 {[
-                  { time: '97', bus: '37', board: 'Wakdewadi Navin ST Stand' },
-                  { time: '104', bus: '152A', board: 'Mariaai Gate Navin St Stand', alts: ['152D', '262A'] },
-                  { time: '107', bus: '219', board: 'Mariaai Gate Navin St Stand' },
-                  { time: '118', bus: '87D', board: 'Pune Station' }
+                  { time: '101', bus: '228A', from: 'Talegaon Railway Station', to: 'Indira College' },
+                  { time: '104', bus: '152A', from: 'Wakadewadi', to: 'Mariaai Gate', alts: ['152D', '262A'] },
+                  { time: '107', bus: '219', from: 'Kothrud', to: 'Deccan' },
+                  { time: '118', bus: '87D', from: 'Pune Station', to: 'Katraj' }
                 ].map((route, idx) => (
-                  <div key={idx} className="result-card">
+                  <div key={idx} className="result-card" onClick={() => setShowDetails(true)}>
                     <div className="card-top">
                       <span className="route-type">Alternate route</span>
                       <span className="total-time">{route.time}min</span>
@@ -403,6 +411,237 @@ const App = () => {
                     )}
                   </div>
                 ))}
+              </div>
+            </div>
+          )}
+
+          {/* Route Details Page */}
+          {showDetails && (
+            <div className="details-overlay">
+              <div className="search-header-full">
+                <button className="back-btn" onClick={() => setShowDetails(false)}>
+                  <ArrowBackIcon />
+                </button>
+                <div className="details-header-text">
+                  <div className="header-top-row">
+                    <span className="total-time-large">101 min</span>
+                    <span className="fare-label">Fare:</span>
+                  </div>
+                  <p className="route-path-text">Talegaon Railway Station - Indira College Of Arts, Comme...</p>
+                </div>
+              </div>
+
+              <div className="itinerary-container">
+                {/* Segment 1: Walk */}
+                <div className="itinerary-item">
+                  <div className="node-col">
+                    <div className="node-icon grey"><DirectionsWalkIcon style={{ fontSize: '20px' }} /></div>
+                    <div className="node-line"></div>
+                  </div>
+                  <div className="node-content">
+                    <div className="node-header">
+                      <span className="node-title">Talegaon Railway Station</span>
+                      <span className="node-time">14:47</span>
+                    </div>
+                    <div className="node-sub">0m ● 2 min</div>
+                  </div>
+                </div>
+
+                {/* Segment 2: Bus */}
+                <div className="itinerary-item">
+                  <div className="node-col">
+                    <div className="node-icon green"><DirectionsBusIcon style={{ fontSize: '20px' }} /></div>
+                    <div className="node-line"></div>
+                  </div>
+                  <div className="node-content">
+                    <div className="node-header">
+                      <span className="node-title">Talegaon Railway Station</span>
+                      <span className="node-time">15:11</span>
+                    </div>
+                    <p className="node-desc">228a Towards Balewadi Depot</p>
+                    <div className="alt-routes-small">
+                      <span>Alternate routes</span>
+                      <div className="alt-tags-mini">
+                        <span className="tag green">228A</span>
+                        <span className="tag green">228</span>
+                      </div>
+                    </div>
+
+                    <div className="booking-card-inline">
+                      <div className="frequency-pill">Every 10 min</div>
+                      <button className="book-btn-main" onClick={() => setShowBooking(true)}>Book Ticket</button>
+                      <p className="booking-note">Your ticket will be active immediately after purchase.</p>
+                    </div>
+
+                    <div className="stops-info-row">
+                      <div className="stops-count">
+                        <div className="dot-connector"></div>
+                        <span>34 Stops ● 76 min</span>
+                      </div>
+                      <ExpandMoreIcon style={{ color: '#888' }} />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Segment 3: Intermediate Stop */}
+                <div className="itinerary-item">
+                  <div className="node-col">
+                    <div className="node-dot grey"></div>
+                    <div className="node-line"></div>
+                  </div>
+                  <div className="node-content">
+                    <span className="node-title normal">Indira collage Punavale</span>
+                  </div>
+                </div>
+
+                {/* Segment 4: Walk */}
+                <div className="itinerary-item">
+                  <div className="node-col">
+                    <div className="node-icon grey mini"><DirectionsWalkIcon style={{ fontSize: '20px' }} /></div>
+                    <div className="node-line"></div>
+                  </div>
+                  <div className="node-content">
+                    <div className="node-header">
+                      <span className="node-title">Indira collage Punavale</span>
+                      <span className="node-time">16:27</span>
+                    </div>
+                    <div className="node-sub">124m ● 1 min</div>
+                  </div>
+                </div>
+
+                {/* Segment 5: Destination */}
+                <div className="itinerary-item end">
+                  <div className="node-col">
+                    <div className="node-icon red"><RoomIcon style={{ fontSize: '20px' }} /></div>
+                  </div>
+                  <div className="node-content">
+                    <div className="node-header">
+                      <span className="node-title">Indira College of Arts, Com...</span>
+                      <span className="node-time">16:28</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Ticket Details (Booking) Page */}
+          {showBooking && (
+            <div className="booking-overlay">
+              <div className="search-header-full">
+                <button className="back-btn" onClick={() => setShowBooking(false)}>
+                  <ArrowBackIcon />
+                </button>
+                <h1 className="search-title-full">Ticket Details</h1>
+                <span className="header-time-top">04:48</span>
+              </div>
+
+              <div className="booking-container">
+                <div className="green-date-header">
+                  14 Apr, 2026 | 03:07 PM
+                </div>
+
+                <div className="booking-card">
+                  <div className="bus-route-row">
+                    <div className="bus-avatar-circle green">
+                      <DirectionsBusIcon style={{ color: 'white' }} />
+                    </div>
+                    <div className="route-info-main">
+                      <span className="route-id">228A</span>
+                      <span className="towards-text">towards Balewadi Depot</span>
+                    </div>
+                    <EditIcon style={{ color: '#555', fontSize: '20px' }} />
+                  </div>
+
+                  <div className="stops-itinerary">
+                    <div className="stop-row">
+                      <div className="stop-indicator">
+                        <div className="stop-circle hollow"></div>
+                        <div className="stop-line-dotted"></div>
+                      </div>
+                      <div className="stop-details">
+                        <span className="stop-label">Starting stop</span>
+                        <div className="stop-name-row">
+                          <span className="stop-name-bold">Talegaon Railway Station</span>
+                          <EditIcon style={{ color: '#555', fontSize: '20px' }} />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="stop-row">
+                      <div className="stop-indicator">
+                        <div className="stop-circle hollow"></div>
+                      </div>
+                      <div className="stop-details">
+                        <span className="stop-label">Ending stop</span>
+                        <span className="stop-name-bold">Indira collage Punavale</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="card-divider-container">
+                    <div className="cutout left"></div>
+                    <hr className="divider-dashed" />
+                    <div className="cutout right"></div>
+                  </div>
+
+                  <div className="booking-options">
+                    <div className="segmented-control">
+                      <div className="segment-btn active">By Fare</div>
+                      <div className="segment-btn">By Ending stop</div>
+                    </div>
+
+                    <div className="price-picker">
+                      <label>Ticket Price</label>
+                      <div className="price-boxes">
+                        {['10', '20', '30', '40', '50'].map(p => (
+                          <div key={p} className={`price-box ${p === '40' ? 'active' : ''}`}>{p}</div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="ticket-counters">
+                      <label>Select Tickets</label>
+                      <div className="counter-row">
+                        <div className="counter-label">
+                          <span className="type">Full</span>
+                          <span className="price">₹40.0</span>
+                        </div>
+                        <div className="counter-controls">
+                          <button className="count-btn"><RemoveIcon style={{ fontSize: '18px' }} /></button>
+                          <span className="count-val">1</span>
+                          <button className="count-btn"><AddIcon style={{ fontSize: '18px' }} /></button>
+                        </div>
+                      </div>
+                      <div className="counter-row">
+                        <div className="counter-label">
+                          <span className="type">Half</span>
+                          <span className="price">₹20.0</span>
+                        </div>
+                        <div className="counter-controls">
+                          <button className="count-btn"><RemoveIcon style={{ fontSize: '18px' }} /></button>
+                          <span className="count-val">0</span>
+                          <button className="count-btn"><AddIcon style={{ fontSize: '18px' }} /></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="booking-footer">
+                <div className="payment-select-col">
+                  <div className="pay-using-row">
+                    <span>PAY USING</span>
+                    <ExpandMoreIcon style={{ transform: 'rotate(180deg)' }} />
+                  </div>
+                  <div className="payment-method">
+                    <PaymentIcon style={{ color: '#2e7d32' }} />
+                    <span>Select</span>
+                  </div>
+                </div>
+                <button className="final-pay-btn">
+                  Pay ₹40.0
+                </button>
               </div>
             </div>
           )}

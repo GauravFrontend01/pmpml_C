@@ -795,11 +795,549 @@
   gap: 10px;
 }
 
-.alt-tag {
+/* Details Overlay Styles */
+.details-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 4000;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.details-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.header-top-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.total-time-large {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #333;
+}
+
+.fare-label {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #000;
+}
+
+.route-path-text {
+  font-size: 0.95rem;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+
+.itinerary-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.itinerary-item {
+  display: flex;
+  gap: 20px;
+  min-height: 50px;
+}
+
+.node-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40px;
+}
+
+.node-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.node-icon.grey { background: #555; }
+.node-icon.green { background: #8bc34a; }
+.node-icon.red { background: #c62828; }
+
+.node-icon.mini {
+  width: 32px;
+  height: 32px;
+  margin: 4px 0;
+}
+
+.node-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 4px solid white;
+  box-shadow: 0 0 0 4px #999;
+  background: white;
+  margin: 14px 0;
+  z-index: 2;
+}
+
+.node-line {
+  flex: 1;
+  width: 6px;
+  background: #999;
+  margin: -5px 0;
+}
+
+.node-content {
+  flex: 1;
+  padding-bottom: 30px;
+}
+
+.itinerary-item.end .node-content {
+  padding-bottom: 0;
+}
+
+.node-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 4px;
+}
+
+.node-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.node-title.normal {
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.node-time {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #777;
+}
+
+.node-sub {
+  color: #888;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.node-desc {
+  color: #888;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.alt-routes-small {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.alt-routes-small span {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.alt-tags-mini {
+  display: flex;
+  gap: 8px;
+}
+
+.tag.green {
   background: #8bc34a;
   color: white;
   padding: 4px 10px;
   border-radius: 4px;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.9rem;
+}
+
+.booking-card-inline {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  margin-bottom: 20px;
+}
+
+.frequency-pill {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid #000;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.book-btn-main {
+  width: 100%;
+  padding: 14px;
+  background: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.booking-note {
+  font-size: 0.85rem;
+  color: #c62828;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.stops-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+/* Booking Overlay Styles */
+.booking-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 5000;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-time-top {
+  margin-left: auto;
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.booking-container {
+  padding: 10px;
+  flex: 1;
+  overflow-y: auto;
+  background: #fdfdfd;
+}
+
+.green-date-header {
+  background: #2e7d32;
+  color: white;
+  padding: 12px 15px;
+  border-radius: 8px 8px 0 0;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.booking-card {
+  background: white;
+  border: 1px solid #eee;
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+}
+
+.bus-route-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.bus-avatar-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.route-info-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.route-id {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #000;
+}
+
+.towards-text {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.stops-itinerary {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.stop-row {
+  display: flex;
+  gap: 15px;
+}
+
+.stop-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20px;
+}
+
+.stop-circle.hollow {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2.5px solid #888;
+  background: white;
+}
+
+.stop-line-dotted {
+  flex: 1;
+  width: 2px;
+  border-left: 2px dashed #aaa;
+  margin: 4px 0;
+}
+
+.stop-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stop-label {
+  font-size: 0.9rem;
+  color: #999;
+}
+
+.stop-name-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stop-name-bold {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #444;
+}
+
+.divider-dashed {
+  border: none;
+  border-top: 1px dashed #ccc;
+  width: 100%;
+}
+
+.card-divider-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 30px -20px;
+  height: 20px;
+}
+
+.cutout {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: #fdfdfd; 
+  border-radius: 50%;
+  border: 1px solid #eee;
+  z-index: 5;
+}
+
+.cutout.left {
+  left: -12px;
+  box-shadow: inset -3px 0 5px rgba(0,0,0,0.02);
+}
+
+.cutout.right {
+  right: -12px;
+  box-shadow: inset 3px 0 5px rgba(0,0,0,0.02);
+}
+
+.segmented-control {
+  display: flex;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 25px;
+}
+
+.segment-btn {
+  flex: 1;
+  text-align: center;
+  padding: 12px;
+  font-weight: 700;
+  color: #666;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.segment-btn.active {
+  background: #2e7d32;
+  color: white;
+}
+
+.price-picker label, .ticket-counters label {
+  display: block;
+  font-size: 0.95rem;
+  color: #999;
+  margin-bottom: 12px;
+}
+
+.price-boxes {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.price-box {
+  flex: 1;
+  text-align: center;
+  padding: 12px 0;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.price-box.active {
+  border: 2px solid #ccc; /* Simple border highlight as in screenshot */
+}
+
+.counter-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.counter-label {
+  display: flex;
+  flex-direction: column;
+}
+
+.counter-label .type {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.counter-label .price {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #000;
+}
+
+.counter-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.count-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  cursor: pointer;
+}
+
+.count-val {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #333;
+  min-width: 30px;
+  text-align: center;
+}
+
+.booking-footer {
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: white;
+  border-top: 1px solid #eee;
+  box-shadow: 0 -10px 20px rgba(0,0,0,0.05);
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 5500;
+}
+
+.payment-select-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pay-using-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.95rem;
+  color: #888;
+  font-weight: 700;
+}
+
+.payment-method {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.final-pay-btn {
+  flex: 2;
+  padding: 18px;
+  background: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.35rem;
+  font-weight: 800;
+  cursor: pointer;
 }
