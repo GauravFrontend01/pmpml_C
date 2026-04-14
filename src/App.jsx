@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import AltRouteIcon from '@mui/icons-material/AltRoute';
 
 const App = () => {
   return (
@@ -31,14 +32,13 @@ const App = () => {
       <section className="actions-main">
         <div className="action-card">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-             <path d="M4 6V4h16v2H4zm0 14h16v-2H4v2zm0-4h16v-2H4v2zm0-4h16v-2H4v2z" opacity=".3"/>
-             <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM4 6h16v3H4V6zm0 12v-7h16v7H4z"/>
+            <path d="M22 10V6c0-1.11-.9-2-2-2H4c-1.1 0-1.99.89-1.99 2v4c1.1 0 2 .9 2 2s-.9 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2s.9-2 2-2zm-9 7.5h-2v-2h2v2zm0-4.5h-2v-2h2v2zm0-4.5h-2v-2h2v2z"/>
           </svg>
           <span className="action-text">Bus Ticket</span>
         </div>
         <div className="action-card">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm0 4c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm6 12H6v-1.4c0-2 4-3.1 6-3.1s6 1.1 6 3.1V19z"/>
           </svg>
           <span className="action-text">Daily Pass</span>
         </div>
@@ -47,17 +47,15 @@ const App = () => {
       {/* Secondary Actions */}
       <section className="actions-secondary">
         <div className="action-card-small">
-          <div style={{color: '#FFD700', fontSize: '24px'}}>🎫</div>
+          <img src="/ticket.png" alt="Ticket" style={{ width: '30px', height: 'auto' }} />
           <span className="action-text">View Ticket</span>
         </div>
         <div className="action-card-small">
-          <div style={{color: '#FFD700', fontSize: '24px'}}>🎫</div>
+          <img src="/ticket.png" alt="Pass" style={{ width: '30px', height: 'auto' }} />
           <span className="action-text">View Pass</span>
         </div>
         <div className="action-card-small">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M21.71 11.29l-9-9c-.39-.39-1.02-.39-1.41 0l-9 9c-.39.39-.39 1.02 0 1.41l9 9c.39.39 1.02.39 1.41 0l9-9c.39-.38.39-1.01 0-1.41zM14 14.5V12h-4v3H8v-4c0-.55.45-1 1-1h5V7.5l3.5 3.5-3.5 3.5z"/>
-          </svg>
+          <AltRouteIcon style={{ fontSize: '30px', color: '#333' }} />
           <span className="action-text" style={{fontSize: '0.75rem'}}>Route Time Table</span>
         </div>
         <div className="action-card-small">
