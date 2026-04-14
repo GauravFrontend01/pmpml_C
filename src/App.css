@@ -1648,11 +1648,20 @@
   font-size: 1.1rem;
 }
 
-.ticket-grid-info {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+.ticket-info-row {
+  display: flex;
+  justify-content: space-between;
   padding: 20px;
   border-bottom: 1px solid #eee;
+}
+
+.grid-item.left { text-align: left; }
+.grid-item.center { text-align: center; }
+.grid-item.right { text-align: right; }
+
+.fare-val {
+  color: #000 !important;
+  font-weight: 800 !important;
 }
 
 .grid-item {
@@ -1691,13 +1700,13 @@
 }
 
 .card-divider-container.mini {
-  margin: 10px -10px;
+  margin: 15px -12px;
 }
 
 .cutout.grey {
   background: #c8e6c9; /* Match overlay bg */
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
 }
 
 .divider-dashed.thin {
@@ -1746,13 +1755,13 @@
 .blinking-logo-container {
   display: flex;
   justify-content: center;
-  padding: 30px 0;
+  padding: 45px 0; /* Increased by 15px from 30px */
 }
 
 .pulse-logo {
   width: 140px;
   height: auto;
-  animation: logo-pulse 1.3s ease-in-out infinite;
+  animation: logo-pulse 0.8s ease-in-out infinite;
 }
 
 @keyframes logo-pulse {
@@ -1761,16 +1770,26 @@
   100% { transform: scale(1); }
 }
 
-.expiry-row {
+.ticket-card-footer {
   text-align: center;
   color: #777;
   font-size: 0.9rem;
   font-weight: 500;
-  margin-bottom: 25px;
+  padding: 12px;
+  background: #f9f9f9;
+  border-top: 1px solid #eee;
 }
 
-.qr-button-bottom {
-  margin: 0 20px 20px 20px;
+.final-qr-bottom-container {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+.qr-button-bottom-external {
+  width: 90%;
   padding: 15px;
   background: #e8f5e9;
   border: 1px solid #c8e6c9;
@@ -1783,7 +1802,9 @@
   font-weight: 700;
   font-size: 1.1rem;
   cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
+
 /* QR Modal Styles */
 .qr-backdrop {
   z-index: 9000 !important;

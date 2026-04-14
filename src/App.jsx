@@ -39,6 +39,7 @@ const App = () => {
   const [showFinalTicket, setShowFinalTicket] = useState(false);
   const [showQRModal, setShowQRModal] = useState(false);
   const [bookingTimer, setBookingTimer] = useState(300); // 5 minutes in seconds
+  const [expiryTimer, setExpiryTimer] = useState(1645); // ~27 minutes in seconds
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
   const mapRef = useRef(null);
@@ -84,6 +85,16 @@ const App = () => {
     }
     return () => clearInterval(interval);
   }, [showBooking, bookingTimer]);
+
+  useEffect(() => {
+    let interval;
+    if (showFinalTicket && expiryTimer > 0) {
+      interval = setInterval(() => {
+        setExpiryTimer(prev => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [showFinalTicket, expiryTimer]);
 
   const formatTimer = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -811,18 +822,18 @@ const App = () => {
               <div className="ticket-main-card">
                 <div className="ticket-red-title">पुणे महानगर परिवहन महामंडळ लि.</div>
                 
-                <div className="ticket-grid-info">
-                  <div className="grid-item">
+                <div className="ticket-info-row">
+                  <div className="grid-item left">
                     <label>Route</label>
                     <span>306</span>
                   </div>
-                  <div className="grid-item">
+                  <div className="grid-item center">
                     <label>Tickets count</label>
                     <span>1H</span>
                   </div>
-                  <div className="grid-item">
+                  <div className="grid-item right">
                     <label>Fare</label>
-                    <span>₹5</span>
+                    <span className="fare-val">₹5</span>
                   </div>
                 </div>
 
@@ -857,11 +868,13 @@ const App = () => {
                   <img src="/pmpml.png" alt="PMPML Logo" className="pulse-logo" />
                 </div>
 
-                <div className="expiry-row">
-                  Expires in 00:27:25
+                <div className="ticket-card-footer">
+                  Expires in {formatTimer(expiryTimer)}
                 </div>
+              </div>
 
-                <button className="qr-button-bottom" onClick={() => setShowQRModal(true)}>
+              <div className="final-qr-bottom-container">
+                <button className="qr-button-bottom-external" onClick={() => setShowQRModal(true)}>
                   <QrCodeIcon />
                   Show QR code
                 </button>
