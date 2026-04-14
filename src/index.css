@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-primary: #f8f9fa;
-  --bg-secondary: #ffffff;
+  --bg-primary: #fffaf9;
+  --bg-secondary: #fffaf9;
   --text-primary: #1a1a1a;
   --text-secondary: #666666;
   --action-bg: #e3f2fd;

@@ -121,6 +121,11 @@ const App = () => {
         </div>
       </section>
 
+      {/* Footer Image Banner */}
+      <div className="footer-image-container">
+        <img src="/footer.png" alt="PMPML Footer" className="footer-image" />
+      </div>
+
       {/* Footer Nav */}
       <nav className="bottom-nav">
         <a href="#" className="nav-item active">

@@ -3,7 +3,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #fff;
+  background: var(--bg-secondary);
 }
 
 .logo-circle {
@@ -36,7 +36,7 @@
 
 .search-section {
   padding: 20px;
-  background: #fdfdfd;
+  background: var(--bg-secondary);
 }
 
 .search-container {
@@ -323,7 +323,7 @@
   transform: translateX(-50%);
   width: 100%;
   max-width: 450px;
-  background: white;
+  background: var(--bg-secondary);
   display: flex;
   justify-content: space-around;
   padding: 10px 0;
@@ -347,4 +347,17 @@
 
 .nav-icon {
   font-size: 1.4rem;
+}
+
+.footer-image-container {
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
 }
