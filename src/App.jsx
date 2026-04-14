@@ -21,6 +21,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import PaymentIcon from '@mui/icons-material/Payment';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import PendingIcon from '@mui/icons-material/Pending';
+import SecurityIcon from '@mui/icons-material/Security';
+import QrCodeIcon from '@mui/icons-material/QrCode';
 
 const App = () => {
   const [activeTab, setActiveTab] = useState('Home');
@@ -29,6 +33,12 @@ const App = () => {
   const [showDetails, setShowDetails] = useState(false);
   const [showBooking, setShowBooking] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
+  const [showFinalTicket, setShowFinalTicket] = useState(false);
+  const [showQRModal, setShowQRModal] = useState(false);
+  const [bookingTimer, setBookingTimer] = useState(300); // 5 minutes in seconds
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
   const mapRef = useRef(null);
@@ -42,6 +52,44 @@ const App = () => {
   ]);
   const busMarkers = useRef({});
   const stopMarkers = useRef([]);
+
+  const handlePaymentStart = () => {
+    setShowPaymentModal(false);
+    setIsProcessing(true);
+    setTimeout(() => {
+      setIsProcessing(false);
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+        setShowFinalTicket(true);
+      }, 2000);
+    }, 3000);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    let interval;
+    if (showBooking && bookingTimer > 0) {
+      interval = setInterval(() => {
+        setBookingTimer(prev => prev - 1);
+      }, 1000);
+    } else if (!showBooking) {
+      setBookingTimer(300); // Reset when closed
+    }
+    return () => clearInterval(interval);
+  }, [showBooking, bookingTimer]);
+
+  const formatTimer = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   useEffect(() => {
     if (activeTab === 'Buses' && mapRef.current && !leafletMap.current) {
@@ -128,12 +176,18 @@ const App = () => {
   }, [activeTab]);
   return (
     <div className="app-container">
+      {showSplash && (
+        <div className="splash-screen">
+          <img src="/pmpml.png" alt="PMPML Logo" className="splash-logo" />
+        </div>
+      )}
+
       {activeTab === 'Home' ? (
         <>
           {/* Header */}
           <header className="header">
             <div className="logo-circle">
-              <img src="/pmpml_logo_1776152853531.png" alt="PMPML Logo" />
+              <img src="/pmpml.png" alt="PMPML Logo" />
             </div>
             <div className="flex items-center" style={{ gap: '15px' }}>
               <NotificationsIcon style={{ fontSize: '28px', color: '#333' }} />
@@ -534,7 +588,7 @@ const App = () => {
                   <ArrowBackIcon />
                 </button>
                 <h1 className="search-title-full">Ticket Details</h1>
-                <span className="header-time-top">04:48</span>
+                <span className="header-time-top">{formatTimer(bookingTimer)}</span>
               </div>
 
               <div className="booking-container">
@@ -656,25 +710,25 @@ const App = () => {
               <div className="payment-modal" onClick={(e) => e.stopPropagation()}>
                 <h2 className="modal-title">Select Payment Mode</h2>
                 <div className="payment-grid">
-                  <div className="payment-option">
+                  <div className="payment-option" onClick={handlePaymentStart}>
                     <div className="brand-icon-img">
                       <img src="/paytm.png" alt="Paytm" />
                     </div>
                     <span>Paytm</span>
                   </div>
-                  <div className="payment-option">
+                  <div className="payment-option" onClick={handlePaymentStart}>
                     <div className="brand-icon-img">
                       <img src="/phone-pe.jpg" alt="PhonePe" />
                     </div>
                     <span>PhonePe</span>
                   </div>
-                  <div className="payment-option">
+                  <div className="payment-option" onClick={handlePaymentStart}>
                     <div className="brand-icon-img">
                       <img src="/google-pay.png" alt="GPay" />
                     </div>
                     <span>GPay</span>
                   </div>
-                  <div className="payment-option">
+                  <div className="payment-option" onClick={handlePaymentStart}>
                     <div className="brand-icon-img">
                       <img src="/amazon.webp" alt="Amazon" />
                     </div>
@@ -682,6 +736,152 @@ const App = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          )}
+
+          {/* Processing Screen */}
+          {isProcessing && (
+            <div className="processing-overlay">
+              <div className="processing-logo-container">
+                <div className="logo-circle-loader">
+                  <div className="inner-logo">E</div>
+                </div>
+              </div>
+
+              <div className="processing-steps">
+                <div className="step-row-large">
+                  <div className="step-icon-col">
+                    <CheckCircleIcon style={{ color: '#2e7d32', fontSize: '28px' }} />
+                    <div className="step-line-vertical dotted"></div>
+                  </div>
+                  <div className="step-text-col">
+                    <span className="step-label-main green">Initialised</span>
+                    <span className="step-subtitle">Payment is in progress...</span>
+                  </div>
+                </div>
+                <div className="step-row-large">
+                  <div className="step-icon-col">
+                    <PendingIcon style={{ color: '#f57c00', fontSize: '28px' }} />
+                  </div>
+                  <div className="step-text-col">
+                    <span className="step-label-main orange">Pending</span>
+                    <span className="step-subtitle">Waiting for payment to get confirmed</span>
+                    <p className="refund-text">If payment has been debited and app still showing unpaid, refund will be initiated in 24-48 hours.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="processing-footer">
+                <p>Do not press back or leave this screen</p>
+                <div className="secured-row">
+                  <SecurityIcon style={{ fontSize: '18px' }} />
+                  <span>Secured Payment</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Success Toast */}
+          {showToast && (
+            <div className="android-toast">
+              Payment confirmed
+            </div>
+          )}
+
+          {/* Final Ticket View */}
+          {showFinalTicket && (
+            <div className="final-ticket-overlay">
+              <div className="final-header">
+                <button className="close-final-btn" onClick={() => {
+                  setShowFinalTicket(false);
+                  setShowSearch(false);
+                  setShowResults(false);
+                  setShowDetails(false);
+                  setShowBooking(false);
+                  setActiveTab('Home');
+                }}>
+                  <CloseIcon />
+                </button>
+                <div className="header-links">
+                  <span>Need Help?</span>
+                  <span>All tickets</span>
+                </div>
+              </div>
+
+              <div className="ticket-main-card">
+                <div className="ticket-red-title">पुणे महानगर परिवहन महामंडळ लि.</div>
+                
+                <div className="ticket-grid-info">
+                  <div className="grid-item">
+                    <label>Route</label>
+                    <span>306</span>
+                  </div>
+                  <div className="grid-item">
+                    <label>Tickets count</label>
+                    <span>1H</span>
+                  </div>
+                  <div className="grid-item">
+                    <label>Fare</label>
+                    <span>₹5</span>
+                  </div>
+                </div>
+
+                <div className="path-display">
+                  <span>Bhumkar Chowk</span>
+                  <div className="arrow-right">→</div>
+                  <span>Hinjawadigaon</span>
+                </div>
+
+                <div className="card-divider-container mini">
+                  <div className="cutout left grey"></div>
+                  <hr className="divider-dashed thin" />
+                  <div className="cutout right grey"></div>
+                </div>
+
+                <div className="ticket-times">
+                  <div className="time-col">
+                    <label>Booking Time</label>
+                    <span>14 Apr, 26 | 03:30 PM</span>
+                  </div>
+                  <div className="time-col">
+                    <label>Valid Till</label>
+                    <span>14 Apr, 26 | 04:00 PM</span>
+                  </div>
+                </div>
+
+                <div className="ticket-id-center">2604141530P807MH</div>
+
+                <hr className="divider-solid" />
+
+                <div className="blinking-logo-container">
+                  <img src="/pmpml.png" alt="PMPML Logo" className="pulse-logo" />
+                </div>
+
+                <div className="expiry-row">
+                  Expires in 00:27:25
+                </div>
+
+                <button className="qr-button-bottom" onClick={() => setShowQRModal(true)}>
+                  <QrCodeIcon />
+                  Show QR code
+                </button>
+              </div>
+
+              {showQRModal && (
+                <div className="modal-backdrop qr-backdrop" onClick={() => setShowQRModal(false)}>
+                  <div className="qr-modal" onClick={(e) => e.stopPropagation()}>
+                    <button className="qr-close-btn" onClick={() => setShowQRModal(false)}>
+                      <CloseIcon style={{ fontSize: '20px' }} />
+                    </button>
+                    <div className="qr-img-container">
+                      <img 
+                        src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=PMPML-TICKET-2604141530P807MH" 
+                        alt="Ticket QR Code" 
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
