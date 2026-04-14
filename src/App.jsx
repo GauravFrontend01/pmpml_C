@@ -39,8 +39,13 @@ const App = () => {
   const [showFinalTicket, setShowFinalTicket] = useState(false);
   const [showQRModal, setShowQRModal] = useState(false);
   const [bookingTimer, setBookingTimer] = useState(300); // 5 minutes in seconds
-  const [expiryTimer, setExpiryTimer] = useState(1645); // ~27 minutes in seconds
+  const [expiryTimer, setExpiryTimer] = useState(1800); 
   const [origin, setOrigin] = useState('');
+  const [ticketData, setTicketData] = useState({
+    id: '2604141530P807MH',
+    bookingTime: '14 Apr, 26 | 03:30 PM',
+    validTill: '14 Apr, 26 | 04:00 PM'
+  });
   const [destination, setDestination] = useState('');
   const mapRef = useRef(null);
   const leafletMap = useRef(null);
@@ -57,6 +62,39 @@ const App = () => {
   const handlePaymentStart = () => {
     setShowPaymentModal(false);
     setIsProcessing(true);
+    
+    // Generate real-time data
+    const now = new Date();
+    const validUntil = new Date(now.getTime() + 30 * 60000);
+    
+    const formatDate = (date) => {
+      const day = date.getDate().toString().padStart(2, '0');
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const month = monthNames[date.getMonth()];
+      const year = date.getFullYear().toString().slice(-2);
+      const hours = date.getHours();
+      const mins = date.getMinutes().toString().padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      const hours12 = (hours % 12) || 12;
+      return `${day} ${month}, ${year} | ${hours12.toString().padStart(2, '0')}:${mins} ${ampm}`;
+    };
+
+    const formatId = (date) => {
+      const yy = date.getFullYear().toString().slice(-2);
+      const mm = (date.getMonth() + 1).toString().padStart(2, '0');
+      const dd = date.getDate().toString().padStart(2, '0');
+      const hh = date.getHours().toString().padStart(2, '0');
+      const min = date.getMinutes().toString().padStart(2, '0');
+      return `${yy}${mm}${dd}${hh}${min}P807MH`;
+    };
+
+    setTicketData({
+      id: formatId(now),
+      bookingTime: formatDate(now),
+      validTill: formatDate(validUntil)
+    });
+    setExpiryTimer(1800); // Full 30 mins
+
     setTimeout(() => {
       setIsProcessing(false);
       setShowToast(true);
@@ -852,15 +890,15 @@ const App = () => {
                 <div className="ticket-times">
                   <div className="time-col">
                     <label>Booking Time</label>
-                    <span>14 Apr, 26 | 03:30 PM</span>
+                    <span>{ticketData.bookingTime}</span>
                   </div>
                   <div className="time-col">
                     <label>Valid Till</label>
-                    <span>14 Apr, 26 | 04:00 PM</span>
+                    <span>{ticketData.validTill}</span>
                   </div>
                 </div>
 
-                <div className="ticket-id-center">2604141530P807MH</div>
+                <div className="ticket-id-center">{ticketData.id}</div>
 
                 <hr className="divider-solid" />
 
