@@ -8,9 +8,20 @@ import MyLocationIcon from '@mui/icons-material/MyLocation';
 import HomeIcon from '@mui/icons-material/Home';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import HelpCenterIcon from '@mui/icons-material/HelpCenter';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CloseIcon from '@mui/icons-material/Close';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 const App = () => {
   const [activeTab, setActiveTab] = useState('Home');
+  const [showSearch, setShowSearch] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const [origin, setOrigin] = useState('');
+  const [destination, setDestination] = useState('');
   const mapRef = useRef(null);
   const leafletMap = useRef(null);
   const [buses, setBuses] = useState([
@@ -123,7 +134,7 @@ const App = () => {
 
           {/* Search Section */}
           <section className="search-section">
-            <div className="search-bar">
+            <div className="search-bar" onClick={() => setShowSearch(true)}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -242,6 +253,159 @@ const App = () => {
           <button className="locate-btn">
             <MyLocationIcon />
           </button>
+        </div>
+      )}
+
+      {/* Search Overlay Page */}
+      {showSearch && (
+        <div className="search-overlay">
+          {!showResults ? (
+            /* Initial Search Input View */
+            <>
+              <div className="search-header-full">
+                <button className="back-btn" onClick={() => setShowSearch(false)}>
+                  <ArrowBackIcon />
+                </button>
+                <h1 className="search-title-full">Search</h1>
+              </div>
+
+              <div className="search-inputs-container">
+                <div className="inputs-group">
+                  <div className="search-input-box grey-bg">
+                    <FiberManualRecordIcon style={{ fontSize: '18px', color: '#000' }} />
+                    <input 
+                      type="text" 
+                      placeholder="तुमचे ठिकाण" 
+                      value={origin} 
+                      onChange={(e) => setOrigin(e.target.value)}
+                    />
+                    {origin && <CloseIcon style={{ fontSize: '20px', color: '#666' }} onClick={() => setOrigin('')} />}
+                  </div>
+                  <div className="search-input-box grey-bg">
+                    <LocationOnIcon style={{ fontSize: '20px', color: '#000' }} />
+                    <input 
+                      type="text" 
+                      placeholder="कुठे जायचे आहे?" 
+                      value={destination}
+                      onChange={(e) => setDestination(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && setShowResults(true)}
+                    />
+                  </div>
+                </div>
+                <button className="swap-btn">
+                  <SwapVertIcon />
+                </button>
+              </div>
+
+              <div className="recent-searches-section">
+                <h2 className="recent-title">Recent Searches</h2>
+                <div className="recent-list">
+                  {[1, 2, 3, 4].map((item) => (
+                    <div key={item} className="recent-item" onClick={() => {
+                      setOrigin('Current Location');
+                      setDestination('Guru Krupa Hospital');
+                      setShowResults(true);
+                    }}>
+                      <DirectionsBusIcon style={{ color: '#888' }} />
+                      <span className="recent-text">Guru Krupa Hospital</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            /* Searched Results View */
+            <div className="results-page">
+              <div className="search-header-full">
+                <button className="back-btn" onClick={() => setShowResults(false)}>
+                  <ArrowBackIcon />
+                </button>
+                <h1 className="search-title-full">Searched Results</h1>
+              </div>
+
+              <div className="results-inputs-overlay">
+                <div className="inputs-group">
+                  <div className="search-input-box grey-bg-lite">
+                    <FiberManualRecordIcon style={{ fontSize: '18px', color: '#000' }} />
+                    <input type="text" value={origin || "New Wakadewadi MSRTC Bu"} readOnly />
+                    <CloseIcon style={{ fontSize: '20px', color: '#666' }} />
+                  </div>
+                  <div className="search-input-box grey-bg-lite">
+                    <LocationOnIcon style={{ fontSize: '20px', color: '#000' }} />
+                    <input type="text" value={destination || "Baner Hill, Pune"} readOnly />
+                  </div>
+                </div>
+                <div className="results-actions-right">
+                  <button className="icon-btn-circle"><SwapVertIcon /></button>
+                  <button className="icon-btn-circle"><AccessTimeIcon /></button>
+                </div>
+              </div>
+
+              <div className="results-list">
+                {[
+                  { time: '97', bus: '37', board: 'Wakdewadi Navin ST Stand' },
+                  { time: '104', bus: '152A', board: 'Mariaai Gate Navin St Stand', alts: ['152D', '262A'] },
+                  { time: '107', bus: '219', board: 'Mariaai Gate Navin St Stand' },
+                  { time: '118', bus: '87D', board: 'Pune Station' }
+                ].map((route, idx) => (
+                  <div key={idx} className="result-card">
+                    <div className="card-top">
+                      <span className="route-type">Alternate route</span>
+                      <span className="total-time">{route.time}min</span>
+                    </div>
+                    
+                    <div className="route-segments">
+                      <div className="segment walk">
+                        <DirectionsWalkIcon style={{ fontSize: '18px' }} />
+                        <span>2</span>
+                      </div>
+                      <div className="segment bus">
+                        <DirectionsBusIcon style={{ fontSize: '18px' }} />
+                        <span>{route.bus}</span>
+                      </div>
+                      <div className="segment walk">
+                        <DirectionsWalkIcon style={{ fontSize: '18px' }} />
+                        <span>4</span>
+                      </div>
+                      <div className="segment bus-alt">
+                        <DirectionsBusIcon style={{ fontSize: '18px' }} />
+                        <span>87D</span>
+                      </div>
+                      <div className="segment walk">
+                        <DirectionsWalkIcon style={{ fontSize: '18px' }} />
+                        <span>27</span>
+                      </div>
+                    </div>
+
+                    <div className="boarding-info">
+                      <div className="bus-avatar green">
+                        <DirectionsBusIcon style={{ color: '#000' }} />
+                      </div>
+                      <div className="boarding-details">
+                        <div className="board-line">
+                          <span className="board-text">BOARD {route.bus} ●</span>
+                          <span className="arrival-text">Arrives by 15:00</span>
+                        </div>
+                        <div className="location-line">
+                          <span className="station-name">{route.board}</span>
+                          <span className="status-text">Scheduled</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {route.alts && (
+                      <div className="card-footer">
+                        <span className="alt-routes-label">Alternate routes</span>
+                        <div className="alt-tags">
+                          {route.alts.map(alt => <span key={alt} className="alt-tag">{alt}</span>)}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 

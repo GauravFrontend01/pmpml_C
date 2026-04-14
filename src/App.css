@@ -502,7 +502,304 @@
   100% { transform: scale(1.5); opacity: 0; }
 }
 
-/* Fix for Leaflet tiles bleeding over nav */
-.leaflet-container {
-  z-index: 1;
+/* Search Overlay Styles */
+.search-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 3000;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-header-full {
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  color: #333;
+}
+
+.search-title-full {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.search-inputs-container {
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+}
+
+.inputs-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.search-input-box {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: #f1f1f1;
+}
+
+.search-input-box input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 1.1rem;
+  color: #000;
+  outline: none;
+  font-weight: 500;
+}
+
+.search-input-box input::placeholder {
+  color: #888;
+}
+
+.swap-btn {
+  background: #f1f1f1;
+  border: none;
+  width: 45px;
+  height: 45px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  cursor: pointer;
+}
+
+.recent-searches-section {
+  padding: 30px 20px;
+}
+
+.recent-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.recent-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.recent-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.recent-text {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #000;
+}
+
+/* Results Page Styles */
+.results-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f8f9fa;
+  overflow-y: auto;
+  padding-bottom: 30px;
+}
+
+.results-inputs-overlay {
+  padding: 10px 20px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+}
+
+.grey-bg-lite {
+  background: #f5f5f5 !important;
+}
+
+.results-actions-right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.icon-btn-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: #f1f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  cursor: pointer;
+}
+
+.results-list {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.result-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+  border: 1px solid #eee;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.route-type {
+  color: #888;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.total-time {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.route-segments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.segment {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.segment.walk {
+  background: #555;
+  color: white;
+}
+
+.segment.bus {
+  background: #8bc34a;
+  color: white;
+}
+
+.segment.bus-alt {
+  background: #8bc34a;
+  color: white;
+}
+
+.boarding-info {
+  display: flex;
+  gap: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.bus-avatar.green {
+  width: 36px;
+  height: 36px;
+  background: #8bc34a;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.boarding-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.board-line, .location-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.board-text {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #333;
+}
+
+.arrival-text {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.station-name {
+  color: #888;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.status-text {
+  color: #888;
+  font-size: 0.95rem;
+}
+
+.card-footer {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px dashed #ddd;
+}
+
+.alt-routes-label {
+  display: block;
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.alt-tags {
+  display: flex;
+  gap: 10px;
+}
+
+.alt-tag {
+  background: #8bc34a;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
