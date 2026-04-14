@@ -38,13 +38,23 @@ const App = () => {
   const [showSplash, setShowSplash] = useState(true);
   const [showFinalTicket, setShowFinalTicket] = useState(false);
   const [showQRModal, setShowQRModal] = useState(false);
-  const [bookingTimer, setBookingTimer] = useState(300); // 5 minutes in seconds
+  const [showEditScreen, setShowEditScreen] = useState(false);
+  const [logoClicks, setLogoClicks] = useState(0);
+  const [isLongPressed, setIsLongPressed] = useState(false);
+  const longPressTimer = useRef(null);
+
+  const [bookingTimer, setBookingTimer] = useState(300); 
   const [expiryTimer, setExpiryTimer] = useState(1800); 
   const [origin, setOrigin] = useState('');
   const [ticketData, setTicketData] = useState({
     id: '2604141530P807MH',
     bookingTime: '14 Apr, 26 | 03:30 PM',
-    validTill: '14 Apr, 26 | 04:00 PM'
+    validTill: '14 Apr, 26 | 04:00 PM',
+    route: '306',
+    count: '1H',
+    fare: '₹5',
+    origin: 'Bhumkar Chowk',
+    destination: 'Hinjawadigaon'
   });
   const [destination, setDestination] = useState('');
   const mapRef = useRef(null);
@@ -91,7 +101,12 @@ const App = () => {
     setTicketData({
       id: formatId(now),
       bookingTime: formatDate(now),
-      validTill: formatDate(validUntil)
+      validTill: formatDate(validUntil),
+      route: '306',
+      count: '1H',
+      fare: '₹5',
+      origin: 'Bhumkar Chowk',
+      destination: 'Hinjawadigaon'
     });
     setExpiryTimer(1800); // Full 30 mins
 
@@ -103,6 +118,33 @@ const App = () => {
         setShowFinalTicket(true);
       }, 2000);
     }, 3000);
+  };
+
+  const handleLongPressStart = () => {
+    longPressTimer.current = setTimeout(() => {
+      setIsLongPressed(true);
+    }, 1500);
+  };
+
+  const handleLongPressEnd = () => {
+    clearTimeout(longPressTimer.current);
+  };
+
+  const handleLogoClick = () => {
+    if (isLongPressed) {
+      const newCount = logoClicks + 1;
+      setLogoClicks(newCount);
+      if (newCount >= 7) {
+        setShowEditScreen(true);
+        setLogoClicks(0);
+        setIsLongPressed(false);
+      }
+    }
+  };
+
+  const handleEditSave = (e) => {
+    e.preventDefault();
+    setShowEditScreen(false);
   };
 
   useEffect(() => {
@@ -839,7 +881,11 @@ const App = () => {
 
           {/* Final Ticket View */}
           {showFinalTicket && (
-            <div className="final-ticket-overlay">
+            <div className="final-ticket-overlay" 
+                 onMouseDown={handleLongPressStart} 
+                 onMouseUp={handleLongPressEnd}
+                 onTouchStart={handleLongPressStart}
+                 onTouchEnd={handleLongPressEnd}>
               <div className="final-header">
                 <button className="close-final-btn" onClick={() => {
                   setShowFinalTicket(false);
@@ -863,22 +909,22 @@ const App = () => {
                 <div className="ticket-info-row">
                   <div className="grid-item left">
                     <label>Route</label>
-                    <span>306</span>
+                    <span>{ticketData.route}</span>
                   </div>
                   <div className="grid-item center">
                     <label>Tickets count</label>
-                    <span>1H</span>
+                    <span>{ticketData.count}</span>
                   </div>
                   <div className="grid-item right">
                     <label>Fare</label>
-                    <span className="fare-val">₹5</span>
+                    <span className="fare-val">{ticketData.fare}</span>
                   </div>
                 </div>
 
                 <div className="path-display">
-                  <span>Bhumkar Chowk</span>
+                  <span>{ticketData.origin}</span>
                   <div className="arrow-right">→</div>
-                  <span>Hinjawadigaon</span>
+                  <span>{ticketData.destination}</span>
                 </div>
 
                 <div className="card-divider-container mini">
@@ -902,7 +948,7 @@ const App = () => {
 
                 <hr className="divider-solid" />
 
-                <div className="blinking-logo-container">
+                <div className="blinking-logo-container" onClick={handleLogoClick}>
                   <img src="/pmpml.png" alt="PMPML Logo" className="pulse-logo" />
                 </div>
 
@@ -926,10 +972,53 @@ const App = () => {
                     </button>
                     <div className="qr-img-container">
                       <img 
-                        src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=PMPML-TICKET-2604141530P807MH" 
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&ecc=H&data=PMPML-V2-SECURE-ID-${ticketData.id}-REF-AX99201-HASH-0x7F2A`} 
                         alt="Ticket QR Code" 
                       />
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Secret Edit Screen */}
+              {showEditScreen && (
+                <div className="edit-screen-overlay">
+                  <div className="edit-card">
+                    <h2>Edit Ticket Details</h2>
+                    <form onSubmit={handleEditSave} className="edit-form">
+                      <div className="edit-field">
+                        <label>Route</label>
+                        <input type="text" value={ticketData.route} onChange={(e) => setTicketData({...ticketData, route: e.target.value})} />
+                      </div>
+                      <div className="edit-field">
+                        <label>Ticket Count</label>
+                        <input type="text" value={ticketData.count} onChange={(e) => setTicketData({...ticketData, count: e.target.value})} />
+                      </div>
+                      <div className="edit-field">
+                        <label>Fare</label>
+                        <input type="text" value={ticketData.fare} onChange={(e) => setTicketData({...ticketData, fare: e.target.value})} />
+                      </div>
+                      <div className="edit-field">
+                        <label>Origin</label>
+                        <input type="text" value={ticketData.origin} onChange={(e) => setTicketData({...ticketData, origin: e.target.value})} />
+                      </div>
+                      <div className="edit-field">
+                        <label>Destination</label>
+                        <input type="text" value={ticketData.destination} onChange={(e) => setTicketData({...ticketData, destination: e.target.value})} />
+                      </div>
+                      <div className="edit-field">
+                        <label>Ticket ID</label>
+                        <input type="text" value={ticketData.id} onChange={(e) => setTicketData({...ticketData, id: e.target.value})} />
+                      </div>
+                      <div className="edit-field">
+                        <label>Expiry Seconds</label>
+                        <input type="number" value={expiryTimer} onChange={(e) => setExpiryTimer(parseInt(e.target.value))} />
+                      </div>
+                      <div className="edit-actions">
+                        <button type="submit" className="save-edit-btn">Save Changes</button>
+                        <button type="button" className="close-edit-btn" onClick={() => setShowEditScreen(false)}>Cancel</button>
+                      </div>
+                    </form>
                   </div>
                 </div>
               )}
