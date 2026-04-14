@@ -158,9 +158,10 @@
 .near-me-card {
   margin: 0 20px;
   border-radius: 12px;
-  background: #cccccc;
+  background: #e3e3e3;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border: 1px solid #ddd;
 }
 
 .stop-header {
@@ -177,9 +178,9 @@
 }
 
 .bus-icon-circle {
-  width: 36px;
-  height: 36px;
-  background: #000;
+  width: 32px;
+  height: 32px;
+  background: #111;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -188,15 +189,25 @@
 }
 
 .stop-name {
-  font-weight: 700;
-  font-size: 1rem;
+  font-weight: 600;
+  font-size: 1.1rem;
   color: #000;
+  max-width: 250px;
 }
 
 .distance {
-  font-size: 0.95rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #000;
+}
+
+.see-more {
+  padding: 12px;
+  text-align: center;
+  background: #e3e3e3;
+  font-size: 1.1rem;
+  color: #222;
   font-weight: 600;
-  color: #333;
 }
 
 .bus-item {
@@ -217,33 +228,90 @@
   color: #000;
 }
 
-.bus-destination {
-  flex: 1;
-  margin-left: 20px;
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: #000;
-}
-
-.bus-status {
+.direction-icon {
+  background: #ff4d4d;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  transform: rotate(45deg);
 }
 
-.status-now {
-  color: #ff3b30;
-  font-weight: 700;
-  font-size: 0.9rem;
+.direction-icon svg {
+  transform: rotate(-45deg);
+  fill: white;
 }
 
-.see-more {
-  padding: 15px;
-  text-align: center;
-  background: #dcdcdc;
-  font-size: 0.95rem;
+.bus-item-extended {
+  background: #fff;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+.bus-number-badge-large {
+  background: #f5f5f5;
+  padding: 25px 20px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 1.4rem;
   color: #000;
+  min-width: 80px;
+  text-align: center;
+}
+
+.bus-destination-large {
+  flex: 1;
+  margin-left: 20px;
+  font-weight: 600;
+  font-size: 1.3rem;
+  color: #000;
+}
+
+.arrivals-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+  min-width: 80px;
+}
+
+.arrival-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.arrival-time {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1;
+}
+
+.arrival-time span:first-child {
+  font-size: 1.2rem;
   font-weight: 700;
+}
+
+.arrival-time span:last-child {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.arrival-time.green {
+  color: #2e7d32;
+}
+
+.arrival-divider {
+  width: 100%;
+  height: 1px;
+  background: #eee;
+  margin: 2px 0;
 }
 
 
